@@ -12,11 +12,14 @@
     var app,
         numResults = 20,
         offset=0,
+        config,
         templates=[],
-        tpl_item='item',
-        tpl_dir='views/',
-        tpl_ext='.mustache',
 
+        loadConfig = function() {
+            $.getJSON( "config.json", function( data ) {
+                config = data;
+            });
+        },
         timeAMPM = function (time){
             time = time.split(/:/);
             var ampm = time[0] >= 12 ? 'PM' : 'AM';
@@ -38,19 +41,20 @@
                 dataType: "jsonp",
                 jsonpCallback: 'callback'
             })
-                .done(loadTemplate);
+                .done(function(response){loadTemplate(response, 'item'); });
             offset+=numResults;
         },
 
-        loadTemplate = function (response) {
-            if (templates.hasOwnProperty(tpl_item)) {
-                renderTemplate (templates[tpl_item], response);
+        loadTemplate = function (response, tpl) {
+            //var tpl = 'item';
+            if (templates.hasOwnProperty(tpl)) {
+                renderTemplate (templates[tpl], response);
                 return;
             }
 
-            $.get(tpl_dir+tpl_item+tpl_ext, function(template) {
-                templates[tpl_item]=template;
-                renderTemplate (templates[tpl_item], response);
+            $.get(config.template.directory+tpl+config.template.extension, function(template) {
+                templates[tpl]=template;
+                renderTemplate (templates[tpl], response);
             });
 
         },
@@ -70,7 +74,7 @@
     app = {
         loadData:loadData,
     };
-
+    loadConfig();
     window.CLapp = app;
     window.CLapp.loadData();
 
