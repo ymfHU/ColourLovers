@@ -1,0 +1,163 @@
+// Google Fonts
+@import url(https://fonts.googleapis.com/css?family=Lato:100,300,400);
+
+// Font Variables
+$Lato: 'Lato', sans-serif;
+
+// Color Variables
+$body: #40a6ea;
+$text: #fff;
+$button_bg: #2376ad;
+
+// Styles
+body {
+  background-color: $body;
+  font-family: $Lato;
+  font-weight: normal;
+  color: $text;
+  padding: 0px 5px;
+
+  @media (min-width: 320px) {
+    padding: 15px 35px;
+  }
+  @media (min-width: 768px) {
+    padding: 30px 45px;
+  }
+  transition: all 0.3s ease, background-position 1ms;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+// Breakpoints map
+$breakpoints: (
+        xs: 320px,
+        sm: 375px,
+        md: 425px,
+        lg: 768px,
+        xl: 1024px,
+        xx: 1440px
+);
+
+// Media query mixin
+@mixin break($size) {
+  @media (min-width: map-get($breakpoints, $size)) {
+    @content;
+  }
+}
+
+// Number of columns variable
+$items: 8;
+
+// Grid container
+.grid {
+  display: flex;
+  flex-flow: row wrap;
+  margin-bottom: 1rem;
+}
+
+.item .title {
+  font-weight: 300;
+  font-size: x-large;
+}
+
+.item .desc {
+  font-weight: 100;
+  font-size: small;
+  margin-top: -2px;
+}
+
+.item .button {
+  float: left;
+  background-color: $button_bg;
+  font-weight:400;
+  font-size: 9pt;
+  margin-top: 10px;
+  padding: 6px 8px;
+  border-radius: 4px;
+}
+
+.item .button span {
+  &:nth-child(even) {
+    margin-left: 10px;
+  }
+}
+
+.item ul {
+  float: right;
+  height: 80px;
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background-color: #333333;
+}
+
+.item ul li {
+  width: 23px;
+  height: 100%;
+  float: left;
+}
+
+// Grid item
+.item {
+  padding: 15px 0;
+  @media (min-width: 768px) {
+    &:nth-child(even) {
+      padding-left: 15px;
+    }
+    &:nth-child(odd) {
+      padding-right: 15px;
+    }
+  }
+  transition: all 0.3s ease, background-position 1ms;
+}
+
+// Loop over the breakpoints
+@each $key, $value in $breakpoints {
+  @for $i from 1 through $items {
+    .grid .item.#{$key}-#{$i} {
+      flex: 0 0 100%;
+      @include break($key) {
+        flex: 0 0 #{$i / $items * 100%};
+      }
+    }
+  }
+}
+
+h1 {
+  font-weight: 100;
+  margin: 0px;
+  font-size: 28px;
+  @media (min-width: 375px) {
+    font-size: 35px;
+  }
+  @media (min-width: 768px) {
+    font-size: 55px;
+    margin-top: 10px;
+    margin-bottom: 30px;
+  }
+  transition: all 0.3s ease, background-position 1ms;
+}
+
+h1 b {
+  font-weight: 400;
+}
+
+h4 {
+  font-weight: 300;
+  margin-top: 0px;
+  margin-bottom: 35px;
+  font-size: small;
+  @media (min-width: 768px) {
+    position: absolute;
+    top: 25px;
+    right: 55px;
+    margin: 0;
+    font-size: small;
+  }
+  transition: all 0.3s ease, background-position 1ms;
+}
